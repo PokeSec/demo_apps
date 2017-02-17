@@ -1,0 +1,19 @@
+stages:
+  - build
+  - deploy
+
+before_script:
+  - export PYTHONPATH=`pwd`
+
+apps:
+  stage: build
+  script:
+    - python3 iocscan/setup.py bdist_spk -d ../dist
+    - python3 metadata/setup.py bdist_spk -d ../dist
+    - python3 monitor/setup.py bdist_spk -d ../dist
+  artifacts:
+    paths:
+      - dist/*.spk
+    expire_in: 1 week
+  tags:
+    - linux
